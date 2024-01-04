@@ -14,13 +14,14 @@ RSpec.describe Ship do
 
   describe '#hit' do
     it "can get hit and lose health" do
-      expect(@cruiser.health).to eq(3)
-      @cruiser.hit
-      expect(@cruiser.health).to eq(2)
+      
+        expect(@cruiser.health).to eq(3)
+        @cruiser.hit
+        expect(@cruiser.health).to eq(2)
     end
   end
 
-  describe '#sunk?' do
+    describe '#sunk?' do
     it "can get hit and lose health/sink" do
 
       expect(@cruiser.sunk?).to be(false)
