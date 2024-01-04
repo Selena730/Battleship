@@ -14,6 +14,7 @@ RSpec.describe Ship do
 
   describe '#hit' do
     it "can get hit and lose health" do
+      
         expect(@cruiser.health).to eq(3)
         @cruiser.hit
         expect(@cruiser.health).to eq(2)

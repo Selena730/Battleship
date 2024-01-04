@@ -1,5 +1,6 @@
 require './lib/board'
 require './lib/ship'
+require './lib/cell'
 
 Rspec.describe Board do
     before(:each) do
@@ -7,7 +8,9 @@ Rspec.describe Board do
 
         expect(@board = Board.new).to be_instance_of(Board)
     end
-
+    it "exists" do
+        board = Board.new
+    
     it "exists and has attributes" do
         expect(@board.cells).to eq({
             "A1" => [],
@@ -83,5 +86,20 @@ Rspec.describe Board do
 
 end
 
+        expect(board).to be_instance_of(Board)
+    end
 
+    describe '#cells' do
+        it 'is a hash' do
+            expect(@board.cells).to be_a(Hash)
+        end
+    end
 
+    describe '#create_cells' do
+        it 'contains 16 key/value pairs' do
+            expect(@board.cells.size).to eq(16)
+        end
+    end
+
+    
+end
