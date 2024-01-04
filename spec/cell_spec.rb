@@ -17,42 +17,48 @@ RSpec.describe Cell do
     expect(cell.ship).to eq(nil)
   end
 
-  it "can tell if cell is empty" do
-    expect(@cell.empty?).to be(true)
-    @cell.place_ship(@cruiser)
-    expect(@cell.empty?).to be(false)
+  describe '#empty?' do
+    it "can tell if cell is empty" do
+      expect(@cell.empty?).to be(true)
+      @cell.place_ship(@cruiser)
+      expect(@cell.empty?).to be(false)
+    end
   end
 
-  it "can be fired upon" do
-    cruiser = Ship.new("Cruiser", 3)
+  describe '#fire_upon' do
+    it "can be fired upon" do
+      cruiser = Ship.new("Cruiser", 3)
 
-    @cell.place_ship(cruiser)
-    expect(@cell.fired_upon?).to be(false)
-    @cell.fire_upon
-    expect(@cell.ship.health).to eq(2)
-    expect(@cell.fired_upon?).to be(true)
+      @cell.place_ship(cruiser)
+      expect(@cell.fired_upon?).to be(false)
+      @cell.fire_upon
+      expect(@cell.ship.health).to eq(2)
+      expect(@cell.fired_upon?).to be(true)
+    end
   end
 
-  it "can render a miss correctly" do
-    cell_1 = Cell.new("B4")
+  describe '#render' do
+    it "can render a miss correctly" do
+      cell_1 = Cell.new("B4")
 
-    expect(cell_1.render).to eq(".")
-    cell_1.fire_upon
-    expect(cell_1.render).to eq("M")
-  end
+      expect(cell_1.render).to eq(".")
+      cell_1.fire_upon
+      expect(cell_1.render).to eq("M")
+    end
 
-  it "can render a hit and sunk ship correctly" do
-    cell_2 = Cell.new("C3")
+    it "can render a hit and sunk ship correctly" do
+      cell_2 = Cell.new("C3")
 
-    cell_2.place_ship(@cruiser)
-    expect(cell_2.render).to eq(".")
-    expect(cell_2.render(true)).to eq("S")
-    cell_2.fire_upon
-    expect(cell_2.render).to eq("H")
-    expect(@cruiser.sunk?).to be(false)
-    @cruiser.hit
-    @cruiser.hit
-    expect(@cruiser.sunk?).to be(true)
-    expect(cell_2.render).to eq("X")
+      cell_2.place_ship(@cruiser)
+      expect(cell_2.render).to eq(".")
+      expect(cell_2.render(true)).to eq("S")
+      cell_2.fire_upon
+      expect(cell_2.render).to eq("H")
+      expect(@cruiser.sunk?).to be(false)
+      @cruiser.hit
+      @cruiser.hit
+      expect(@cruiser.sunk?).to be(true)
+      expect(cell_2.render).to eq("X")
+    end
   end
 end
