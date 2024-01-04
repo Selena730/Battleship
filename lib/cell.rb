@@ -15,14 +15,33 @@ class Cell
     @ship = ship
   end
 
-  def fire_upon?
-    @fire_upon
-  end
 
   def fire_upon
     if @ship
       @ship.hit
     end
-    @fired_upon = true
+    @fire_upon = true
+  end
+
+
+  def fired_upon?
+    @fire_upon
+  end
+
+
+  def render(reveal_ship = false)
+    if fired_upon?
+      if ship
+        return ship.sunk? ? "X" : "H"
+      else
+        return "M"
+      end
+    else
+      if reveal_ship && ship
+        return "S"
+      else
+        return "."
+      end
+    end
   end
 end
