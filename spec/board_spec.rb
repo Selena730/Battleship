@@ -32,11 +32,11 @@ Rspec.describe Board do
   describe '#valid_coordinate?' do
    it "has valid coordinates" do
 
-   expect(@board.valid_coordinate?("A1")).to be(true)
-   expect(@board.valid_coordinate?("D4")).to be(true)
-   expect(@board.valid_coordinate?("A5")).to be(false)
-   expect(@board.valid_coordinate?("E1")).to be(false)
-   expect(@board.valid_coordinate?("A22")).to be(false)
+    expect(@board.valid_coordinate?("A1")).to be(true)
+    expect(@board.valid_coordinate?("D4")).to be(true)
+    expect(@board.valid_coordinate?("A5")).to be(false)
+    expect(@board.valid_coordinate?("E1")).to be(false)
+    expect(@board.valid_coordinate?("A22")).to be(false)
    end
   end 
 
@@ -62,6 +62,12 @@ Rspec.describe Board do
   end
 
   describe '#range' do
+    before(:each) do
+        @range = 3..8
+
+        expect(@range).to be_instance_of(Range)
+    end
+
     it "crates a range method" do
         range = 3..8
         
@@ -69,7 +75,7 @@ Rspec.describe Board do
     end
 
     it "changes range from int to string" do
-        range = 3..8
+        range = "A".."D"
 
         expect(array = range.to_a).to eq([3, 4, 5, 6, 7, 8])
         expect(array.length).to eq(6)
@@ -77,6 +83,13 @@ Rspec.describe Board do
 
         expect(range = "A".."D").to eq("A".."D")
         expect(range.to_a).to eq(["A", "B", "C", "D"])
+    end
+
+    it "can find original value of range" do
+        range = "A".."D"
+
+        expect("A".ord).to eq(65)
+        expect("D".ord).to eq(68)
     end
   end
 
