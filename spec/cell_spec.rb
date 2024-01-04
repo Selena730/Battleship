@@ -16,12 +16,16 @@ Rspec.describe Cell do
         expect(cell.ship).to eq(nil)
     end
 
+describe '#empty?' do
+
     it "can tell if cell is empty" do
         expect(@cell.empty?).to be(true)
         @cell.place_ship(cruiser)
         expect(@cell.empty?).to be(false)
     end
+ end
 
+describe '#fire_upon' do
     it "can be fired upon" do
         cruiser = Ship.new("Cruiser", 3)
 
@@ -31,7 +35,10 @@ Rspec.describe Cell do
         expect(@cell.ship.health).to eq(2)
         expect(@cell.fired_upon?).to be(true)
     end
+end
 
+
+describe '#render' do
     it "can render a miss correctly"
         cell_1 = Cell.new("B4")
         
@@ -54,6 +61,7 @@ Rspec.describe Cell do
         expect(@cruiser.sunk?).to be(true)
         expect(@cell_2.render).to eq("X")
     end
+end
 end
         
 
