@@ -29,7 +29,7 @@ class Cell
   end
 
 
-  def render(reveal_ship = false)
+  def render(reveal_ship = false) #come back and fix nesting 
     if fired_upon?
       if ship
         return ship.sunk? ? "X" : "H"
