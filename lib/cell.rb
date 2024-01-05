@@ -1,5 +1,6 @@
 class Cell
-  attr_reader :coordinate, :ship
+  attr_reader :coordinate
+  attr_accessor :ship
 
   def initialize(coordinate)
     @coordinate = coordinate
@@ -29,7 +30,7 @@ class Cell
   end
 
 
-  def render(reveal_ship = false) #come back and fix nesting 
+  def render(reveal_ship = false) #come back and fix nesting
     if fired_upon?
       if ship
         return ship.sunk? ? "X" : "H"
