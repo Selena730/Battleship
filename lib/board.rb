@@ -52,6 +52,10 @@ class Board
 
     return false unless ship.length == coordinates.length
 
+    coordinates.each do |coordinate|
+      return false if @cells[coordinate].ship
+    end
+
     rows = coordinates.map do |coord|
       coord[0]
     end
@@ -70,5 +74,24 @@ class Board
 
   end
 
+  def place(ship, coordinates)
+    if valid_placement?(ship, coordinates)
+      coordinates.each do |coordinate|
+        @cells[coordinate].ship = ship
+      end
+    end
+  end
 
+  def render(show_ships = false)
+    top_row = '  ' + (1..4).to_a.join(' ') + "\n"
+
+    board_rows = ('A'..'D').to_a.map do |row|
+      row_cells = (1..4).to_a.map do |col|
+        @cells["#{row}#{col}"].render(show_ships)
+      end
+      "#{row} " + row_cells.join(' ') + "\n"
+    end
+
+    top_row + board_rows.join
+  end
 end
