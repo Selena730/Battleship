@@ -67,39 +67,8 @@ RSpec.describe Board do
             expect(@board.valid_placement?(@cruiser, ["B1", "C1", "D1"])).to be(true)
         end
   end
-  
-  rendering_board
-    
-    it "exists" do
-        board = Board.new
-    end
-
-    it "exists and has attributes" do
-        expect(@board.cells).to eq({
-            "A1" => [],
-            "A2" => [],
-            "A3" => [],
-            "A4" => [],
-            "B1" => [],
-            "B2" => [],
-            "B3" => [],
-            "B4" => [],
-            "C1" => [],
-            "C2" => [],
-            "C3" => [],
-            "C4" => [],
-            "D1" => [],
-            "D2" => [],
-            "D3" => [],
-            "D4" => []
-        })
-    end
-
-  describe '#valid_coordinate?' do
-   it "has valid and invalid coordinates" do
 
     describe '#place_ship' do
-
 
         it "allows user to place ship" do
 
@@ -120,62 +89,58 @@ RSpec.describe Board do
             @board.place(@cruiser, ["A1", "A2", "A3"])
             expect(@board.valid_placement?(submarine, ["A1", "B1"])).to be(false)
         end
-
-  rendering_board
-  describe '#place' do
-    before(:each) do
-        @cruiser = Ship.new("Cruiser", 3)    
-
     end
 
-    it "allows user to place ship onto the board" do
-        
-        @board.place(@cruiser, ["A1", "A2", "A3"])    
-        cell_1 = @board.cells["A1"]    
-        cell_2 = @board.cells["A2"]
-        cell_3 = @board.cells["A3"]    
-        
-        expect(cell_1.ship).to eq(@cruiser)
-        expect(cell_2.ship).to eq(@cruiser)
-        expect(cell_3.ship).to eq(@cruiser)
-        expect(cell_3.ship == cell_2.ship).to be(true)
-    end
+    describe '#rendering_board' do
 
-    it "doesn't allow overlapping ships" do
-        submarine = Ship.new("Submarine", 2)    
-        
-        @board.place(@cruiser, ["A1", "A2", "A3"])
-        expect(@board.valid_placement?(submarine, ["A1", "B1"])).to be(false)
-    end
+        it "allows user to place ship onto the board" do
+
+            @board.place(@cruiser, ["A1", "A2", "A3"])
+            cell_1 = @board.cells["A1"]
+            cell_2 = @board.cells["A2"]
+            cell_3 = @board.cells["A3"]
+
+            expect(cell_1.ship).to eq(@cruiser)
+            expect(cell_2.ship).to eq(@cruiser)
+            expect(cell_3.ship).to eq(@cruiser)
+            expect(cell_3.ship == cell_2.ship).to be(true)
+        end
+
+        it "doesn't allow overlapping ships" do
+            submarine = Ship.new("Submarine", 2)
+
+            @board.place(@cruiser, ["A1", "A2", "A3"])
+            expect(@board.valid_placement?(submarine, ["A1", "B1"])).to be(false)
+        end
   end
 
-  describe '#cells' do
-    it 'is a hash' do
-        expect(@board.cells).to be_a(Hash)
+    describe '#cells' do
+        it 'is a hash' do
+            expect(@board.cells).to be_a(Hash)
+        end
     end
-  end
 
-  describe '#create_cells' do
-    it 'contains 16 key/value pairs' do
-        expect(@board.cells.size).to eq(16)
+    describe '#create_cells' do
+        it 'contains 16 key/value pairs' do
+            expect(@board.cells.size).to eq(16)
+        end
     end
-  end
 
-  describe '#render_board' do
+    describe '#render_board' do
     it "can render board properly" do
-        cruiser = Ship.new("Cruiser", 3)    
-        
-        @board.place(cruiser, ["A1", "A2", "A3"])    
-        expect(@board.render).to eq("1 2 3 4 \nA" + 
-                                    ". . . . \nB" +
-                                    ". . . . \nC" +
-                                    ". . . . \nD" +
-                                    ". . . . \n")
-        expect(@board.render(true)).to eq("  1 2 3 4 \n" +
-                                          "A S S S . \n" +
-                                          "B . . . . \n" +
-                                          "C . . . . \n" )
+      cruiser = Ship.new("Cruiser", 3)
+
+      @board.place(cruiser, ["A1", "A2", "A3"])
+      expect(@board.render).to eq("  1 2 3 4\n" +
+                                  "A . . . .\n" +
+                                  "B . . . .\n" +
+                                  "C . . . .\n" +
+                                  "D . . . .\n")
+      expect(@board.render(true)).to eq("  1 2 3 4\n" +
+                                        "A S S S .\n" +
+                                        "B . . . .\n" +
+                                        "C . . . .\n" +
+                                        "D . . . .\n")
     end
   end
-
 end
