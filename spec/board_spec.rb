@@ -2,15 +2,17 @@ require './lib/board'
 require './lib/ship'
 require './lib/cell'
 
-Rspec.describe Board do
+RSpec.describe Board do
     before(:each) do
         @board = Board.new
 
         expect(@board = Board.new).to be_instance_of(Board)
     end
+    
     it "exists" do
         board = Board.new
-    
+    end
+
     it "exists and has attributes" do
         expect(@board.cells).to eq({
             "A1" => [],
@@ -33,7 +35,7 @@ Rspec.describe Board do
     end
 
   describe '#valid_coordinate?' do
-   it "has valid coordinates" do
+   it "has valid and invalid coordinates" do
 
     expect(@board.valid_coordinate?("A1")).to be(true)
     expect(@board.valid_coordinate?("D4")).to be(true)
@@ -75,45 +77,13 @@ Rspec.describe Board do
     end
   end
 
-#   describe '#range' do
-#     before(:each) do
-#         @range = 3..8
-
-#         expect(@range).to be_instance_of(Range)
-#     end
-
-#     it "crates a range method" do
-#         range = 3..8
-        
-#         expect(range.class).to be_instance_of(Range)
-#     end
-
-#     it "changes range from int to string" do
-#         range = "A".."D"
-
-#         expect(array = range.to_a).to eq([3, 4, 5, 6, 7, 8])
-#         expect(array.length).to eq(6)
-#         expect(array[3]).to eq(6)
-
-#         expect(range = "A".."D").to eq("A".."D")
-#         expect(range.to_a).to eq(["A", "B", "C", "D"])
-#     end
-
-#     it "can find original value of range" do
-#         range = "A".."D"
-
-#         expect("A".ord).to eq(65)
-#         expect("D".ord).to eq(68)
-#     end
-#   end
-
-  describe '#place_ship' do
+  describe '#place' do
     before(:each) do
         @cruiser = Ship.new("Cruiser", 3)    
 
     end
 
-    it "allows user to place ship" do
+    it "allows user to place ship onto the board" do
         
         @board.place(@cruiser, ["A1", "A2", "A3"])    
         cell_1 = @board.cells["A1"]    
@@ -133,22 +103,33 @@ Rspec.describe Board do
         expect(@board.valid_placement?(submarine, ["A1", "B1"])).to be(false)
     end
   end
-end
 
-        expect(board).to be_instance_of(Board)
+  describe '#cells' do
+    it 'is a hash' do
+        expect(@board.cells).to be_a(Hash)
     end
+  end
 
-    describe '#cells' do
-        it 'is a hash' do
-            expect(@board.cells).to be_a(Hash)
-        end
+  describe '#create_cells' do
+    it 'contains 16 key/value pairs' do
+        expect(@board.cells.size).to eq(16)
     end
+  end
 
-    describe '#create_cells' do
-        it 'contains 16 key/value pairs' do
-            expect(@board.cells.size).to eq(16)
-        end
+  describe '#render_board' do
+    it "can render board properly" do
+        cruiser = Ship.new("Cruiser", 3)    
+        
+        @board.place(cruiser, ["A1", "A2", "A3"])    
+        expect(@board.render).to eq("1 2 3 4 \nA" + 
+                                    ". . . . \nB" +
+                                    ". . . . \nC" +
+                                    ". . . . \nD" +
+                                    ". . . . \n")
+        expect(@board.render(true)).to eq("  1 2 3 4 \n" +
+                                          "A S S S . \n" +
+                                          "B . . . . \n" +
+                                          "C . . . . \n" )
     end
-
-    
+  end
 end
