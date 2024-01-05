@@ -22,6 +22,7 @@ class Board
   end
 
   def valid_coordinate?(coordinate)
+
     letter = coordinate[0]
     number = coordinate[1..-1].to_i
 
@@ -68,5 +69,6 @@ class Board
     (rows_uniq && cols_consecutive) || (cols_uniq && rows_consecutive)
 
   end
+
 
 end
