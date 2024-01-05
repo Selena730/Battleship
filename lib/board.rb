@@ -20,4 +20,19 @@ class Board
       end
     end
   end
+
+  def valid_coordinate?(coordinate)
+    @cells.key?(coordinate)
+  end
+
+  def place(ship, coordinates)
+    return if !valid_placement?(ship, coordinates)
+  
+    coordinates.each do |coord|
+      cell = @cells[coord]
+      cell.place(ship)
+    end
+  end
+
+  def render_board
 end
