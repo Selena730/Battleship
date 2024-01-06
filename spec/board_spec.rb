@@ -42,8 +42,6 @@ RSpec.describe Board do
     describe '#valid_placement?' do
 
         it "can identify invalid amount of cells holding length of ship corretly" do
-
-
             expect(@board.valid_placement?(@cruiser, ["A1", "A2"])).to be(false)
             expect(@board.valid_placement?(@submarine, ["A2", "A3", "A4"])).to be(false)
         end
@@ -66,7 +64,7 @@ RSpec.describe Board do
             expect(@board.valid_placement?(@submarine, ["A1", "A2"])).to be(true)
             expect(@board.valid_placement?(@cruiser, ["B1", "C1", "D1"])).to be(true)
         end
-  end
+    end
 
     describe '#place_ship' do
 
