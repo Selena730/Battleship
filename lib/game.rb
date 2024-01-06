@@ -36,7 +36,7 @@ def start_game
   def start_playing
     
     puts "game in session"
-    
+
   end
 
   def ship_coordinates
@@ -57,4 +57,4 @@ def start_game
     end
   end
 end
-
+end
