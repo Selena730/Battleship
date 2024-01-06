@@ -40,13 +40,13 @@ def start_game
   end
 
   def ship_coordinates
-    while true
-      puts 'Enter coloumn letter (between A and D):'
-      placement_coloumn = gets.chomp.to_s.upcase
-      break if placement_coloumn.between?(0, 4)
+    loop do while true
+      puts 'Enter column letter (between A and D):'
+      placement_column = gets.chomp.to_s.upcase
+      break if placement_column.between?('A','B','C','D')
     end
     
-    while true
+    loop do while true
       puts 'Enter row number (between 1 and 4):'
       placement_row = gets.chomp.to_i-1
       break if placement_row.between?(0, 4)
