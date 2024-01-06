@@ -1,5 +1,6 @@
 require './lib/board'
 require './lib/ship'
+require './lib/cell'
 class Game
 
 def initialize
@@ -18,7 +19,7 @@ def start_game
   continue = true
   until continue == false
     welcome_message
-    choice = gets.chhomp.downcase
+    choice = gets.chomp.downcase
 
     if choice == 'p'
       start_playing
@@ -29,6 +30,30 @@ def start_game
 
     else
       puts "Invalid option, enter p to play. Enter q to quit."
+    end
+  end
+
+  def start_playing
+    
+    puts "game in session"
+    
+  end
+
+  def ship_coordinates
+    while true
+      puts 'Enter coloumn letter (between A and D):'
+      placement_coloumn = gets.chomp.to_s.upcase
+      break if placement_coloumn.between?(0, 4)
+    end
+    
+    while true
+      puts 'Enter row number (between 1 and 4):'
+      placement_row = gets.chomp.to_i-1
+      break if placement_row.between?(0, 4)
+    end
+
+    if valid_placement?(ship, coordinate) == false
+      puts "Unable to place. Please try again."
     end
   end
 end
