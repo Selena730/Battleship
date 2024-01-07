@@ -4,6 +4,7 @@ require './lib/ship'
 require './lib/board'
 
 RSpec.describe Game do
+
   before(:each) do
     @game = Game.new
   end
@@ -27,8 +28,11 @@ RSpec.describe Game do
       expect(computer_ships).to all(be_a(Ship))
     end
   end
-end
+
+  describe '#welcome_message' do
+    it "outputs welcome message" do
+      expect{@game.welcome_message}.to output("Welcome to BATTLESHIP!\nEnter p to play. Enter q to quit.\n").to_stdout
+    end
+  end
+
   
-
-
-
