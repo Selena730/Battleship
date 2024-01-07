@@ -29,7 +29,7 @@ RSpec.describe Game do
     end
   end
 
-  describe '#welcome_message' do
+  describe '#welcome_messages' do
     it "outputs welcome message" do
       expect{@game.welcome_message}.to output("Welcome to BATTLESHIP!\nEnter p to play. Enter q to quit.\n").to_stdout
     end
