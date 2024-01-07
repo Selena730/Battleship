@@ -21,7 +21,6 @@ class Game
     handle_menu_input
   end
 
-
   def handle_menu_input(input = nil)
     input ||= gets.chomp.downcase
     case input
@@ -30,7 +29,8 @@ class Game
     when 'q'
       puts "Goodbye!"
     else
-      puts "Invalid input. Enter 'p' to play or 'q' to quit."
+      puts "You pressed #{input}! Enter 'p' to play or 'q' to quit."
+      handle_menu_input
     end
   end
 
@@ -38,8 +38,8 @@ class Game
     setup_computer_board
     setup_player_board
     play_game
-  endB4
-  
+  end
+
 
   def setup_computer_board
     @computer_ships.each do |ship|
@@ -95,13 +95,41 @@ class Game
     end
   end
 
+  def getCoordinates(ship)
+    # coordinates array to return
+    coordinates = []
+    for cell in 1..ship.length
+      puts "\n Enter cell position ##{cell}"
+      input = gets.chomp.upcase
+
+      while input.tr(' ', '').empty?
+        # ask again
+        input = gets.chomp.upcase
+      end
+
+      exit_game if input == "EXIT"
+      coordinates.append(input)
+    end
+
+    # return array of cell locations
+    coordinates
+  end
+
   def place_player_ship(ship)
+    title = "Enter the squares for the #{ship.name} (#{ship.length} spaces), or type 'exit' to quit:"
+    subtitle = <<RUBY
+    -----------------------------------------
+    e.g. C3 + Enter
+RUBY
+
     loop do
       puts @player_board.render(true)
-      puts "Enter the squares for the #{ship.name} (#{ship.length} spaces), or type 'exit' to quit:"
-      input = gets.chomp.upcase
-      exit_game if input == "EXIT"  # Ensure this is correctly matching the case
-      coordinates = input.split
+      puts "#{title}\n#{subtitle}"
+
+      coordinates = getCoordinates(ship)
+
+      puts "You inputted #{coordinates}"
+
       if @player_board.valid_placement?(ship, coordinates)
         @player_board.place(ship, coordinates)
         break
@@ -176,10 +204,10 @@ class Game
   end
 end
 
-# def exit_game
-#   puts "Exiting game. Thank you for playing!"
-#   exit
-# end
+def exit_game
+  puts "Exiting game. Thank you for playing!"
+  exit
+end
 
 # if __FILE__ == $PROGRAM_NAME
 #   game = Game.new
