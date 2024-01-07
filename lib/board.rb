@@ -52,7 +52,7 @@ class Board
 
     return false unless ship.length == coordinates.length
 
-    coordinates.each do |coordinate|
+    coordinates.each do |coordinate|  #change to .any? or .all?
       return false if @cells[coordinate].ship
     end
 

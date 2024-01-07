@@ -7,63 +7,37 @@ class Game
     @computer_board = Board.new
     @player_ships = [Ship.new("Cruiser", 3), Ship.new("Submarine", 2)]
     @computer_ships = [Ship.new("Cruiser", 3), Ship.new("Submarine", 2)]
-
-    welcome_messageq
+    @computer_shots = []
   end
+
+  def play
+    welcome_message
+  end
+
 
   def welcome_message
     puts "Welcome to BATTLESHIP"
     puts "Enter p to play. Enter q to quit."
     handle_menu_input
-    # self.handle_init_input <--- example
-
-    # make method called - handle initial input
-      #  this method would be similar but different to a method called handle_game_input which will keep running
-      #  once the game starts and handles whatever input the user uses -- Look for more pseudo code
-
-    # here we call handle_init_input
-      # if user input is P -> start game
-      # else if user input is Q -> Game.quit()
-      # else -> tell user input is invalid and mention possible inputs.
-
-      # ^ the above can be solved in 1 of 2 ways
-      #  while user_input !== 'P' or 'Q'
-       # message the user with the error message
-       #end
-      # then a simple if/else because we could have either 'P' or 'Q' as input
   end
 
-
-  ## Handles Game Input as long as the game - started - and has not finished
-    #  Board.display() => display board before start of turn for human
-    #   while game !== 'over'
-    #   check who's turn it is
-    # if player -> get input => then call board.valid_coordinates or place etc. ==> I don;t know the exact methods you have
-      # continued ... ya3ni check if user provided valid inputs => valid coordinates -> valid move -> save that info in
-      # board and return something to confirm or maybe return the updated board
-    # else if computer => same thing but with no user input
-  ##
-  def handle_menu_input
-    loop do
-      input = gets.chomp.downcase
-      case input
-      when 'p'
-        start_game
-        break
-      when 'q'
-        puts "Goodbye!"
-        break
-      else
-        puts "Invalid input. Enter 'p' to play or 'q' to quit."
-      end
+  def handle_menu_input(input = nil)
+    input ||= gets.chomp.downcase
+    case input
+    when 'p'
+      start_game
+    when 'q'
+      puts "Goodbye!"
+    else
+      puts "You pressed #{input}! Enter 'p' to play or 'q' to quit."
+      handle_menu_input
     end
   end
 
   def start_game
-    # initialise board
-    # initialise players
-    # get player battleship locations
-    # next turn if game is not over
+    setup_computer_board
+    setup_player_board
+    play_game
   end
 
 
@@ -103,26 +77,139 @@ class Game
     end
   end
 
-
-  def setup_player_board
-    puts "You need to lay out your ships on the board."
-    @player_ships.each do |ship|
-      puts @player_board.render(true)
-      puts "Enter the squares for the #{ship.name} (#{ship.length} spaces), like 'A1 A2 A3':"
-
-      loop do
-        coordinates = gets.chomp.upcase.split
-        if @player_board.valid_placement?(ship, coordinates)
-          @player_board.place(ship, coordinates)
-          break
-        else
-          puts "Those are invalid coordinates. Please try again:"
-        end
+  def generate_unique_random_coordinate
+    loop do
+      coordinate = generate_random_coordinate
+      unless @computer_shots.include?(coordinate)
+        @computer_shots << coordinate
+        return coordinate
       end
     end
   end
 
+
+  def setup_player_board
+    puts "You need to lay out your ships on the board."
+    @player_ships.each do |ship|
+      place_player_ship(ship)
+    end
+  end
+
+  def getCoordinates(ship)
+    # coordinates array to return
+    coordinates = []
+    for cell in 1..ship.length
+      puts "\n Enter cell position ##{cell}"
+      input = gets.chomp.upcase
+
+      while input.tr(' ', '').empty?
+        # ask again
+        input = gets.chomp.upcase
+      end
+
+      exit_game if input == "EXIT"
+      coordinates.append(input)
+    end
+
+    # return array of cell locations
+    coordinates
+  end
+
+  def place_player_ship(ship)
+    title = "Enter the squares for the #{ship.name} (#{ship.length} spaces), or type 'exit' to quit:"
+    subtitle = <<RUBY
+    -----------------------------------------
+    e.g. C3 + Enter
+RUBY
+
+    loop do
+      puts @player_board.render(true)
+      puts "#{title}\n#{subtitle}"
+
+      coordinates = getCoordinates(ship)
+
+      puts "You inputted #{coordinates}"
+
+      if @player_board.valid_placement?(ship, coordinates)
+        @player_board.place(ship, coordinates)
+        break
+      else
+        puts "Those are invalid coordinates. Please try again:"
+      end
+    end
+  end
+
+  def play_game
+    until game_over?
+      display_boards
+      player_turn
+      break if game_over?
+      computer_turn
+    end
+    announce_winner
+    # Do not recursively call play here; just end this method
+  end
+
+
+  def game_over?
+    player_ships_sunk = @player_ships.all?(&:sunk?)
+    computer_ships_sunk = @computer_ships.all?(&:sunk?)
+    player_ships_sunk || computer_ships_sunk
+  end
+
+
+  def display_boards
+    puts "=============COMPUTER BOARD============="
+    puts @computer_board.render(false)
+    puts "==============PLAYER BOARD=============="
+    puts @player_board.render(true)
+  end
+
+
+  def player_turn
+    loop do
+      puts "Enter the coordinate for your shot:"
+      coordinate = gets.chomp.upcase
+      if @computer_board.valid_coordinate?(coordinate) && !@computer_board.cells[coordinate].fired_upon?
+        result = @computer_board.cells[coordinate].fire_upon
+        puts result ? "Hit at #{coordinate}!" : "Miss at #{coordinate}."
+        break
+      else
+        puts "Invalid coordinate or already fired upon. Please try again."
+      end
+    end
+  end
+
+
+  def computer_turn
+    coordinate = generate_unique_random_coordinate
+    result = @player_board.cells[coordinate].fire_upon
+    puts result ? "Computer hit at #{coordinate}!" : "Computer miss at #{coordinate}."
+  end
+
+
+  def generate_random_coordinate
+    rows = ('A'..'D').to_a
+    cols = (1..4).to_a
+    "#{rows.sample}#{cols.sample}"
+  end
+
+
+  def announce_winner
+    if @player_ships.all?(&:sunk?)
+      puts "Sorry, you lost. The computer won."
+    else
+      puts "Congratulations, you won!"
+    end
+  end
 end
 
+def exit_game
+  puts "Exiting game. Thank you for playing!"
+  exit
+end
 
-Game.new
+# if __FILE__ == $PROGRAM_NAME
+#   game = Game.new
+#   game.play
+# end
