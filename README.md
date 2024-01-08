@@ -1,5 +1,3 @@
-
-
 #Written reflection:
 In your README reflect on the following:
 1. Iteration 3 did not provide an interaction pattern. How did you approach designing this iteration? If you did not get to Iteration 3, reflect on how you think you would’ve approached the design and problem solving process.
@@ -64,7 +62,7 @@ In the valid_placement? method, where it says coordinations.each, I want to use 
     We used driver and navigator at first and then we worked on our own on different branches and we would make pull requests and solve any merge conflicts after we discuss what we want to do.
 
 8. Walk us through your GitHub insights. How many pull requests did you make? How many commits did you make? 
-    We made almost 21 PRs and around 66 commits.
+    We made almost 22 PRs and around 68 commits.
 
 9. Can you identify a PR that was made that demonstrates good commenting/partner review workflow? 
     Main menu(start) we decided not to merge it and it has the review and it shows why we decided not to merge it.
