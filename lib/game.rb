@@ -18,7 +18,7 @@ class Game
   def welcome_message
     puts "Welcome to BATTLESHIP"
     puts "Enter p to play. Enter q to quit."
-    handle_menu_input
+    #handle_menu_input
   end
 
   def handle_menu_input(input = nil)
