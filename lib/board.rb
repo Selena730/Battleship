@@ -53,7 +53,8 @@ class Board
     return false unless ship.length == coordinates.length
 
     coordinates.each do |coordinate|  #change to .any? or .all?
-      return false if @cells[coordinate].ship
+       cell = @cells[coordinate]
+      return cell ? !cell.ship : false
     end
 
     rows = coordinates.map do |coord|
