@@ -1,4 +1,4 @@
-#Written reflection:
+# Written reflection:
 In your README reflect on the following:
 1. Iteration 3 did not provide an interaction pattern. How did you approach designing this iteration? If you did not get to Iteration 3, reflect on how you think you would’ve approached the design and problem solving process.
     We started by creating a sudo code pattern to follow. After that we created methods to excute functionality of the game process. Finally we went through and created the tests for said functionality.
